@@ -1,15 +1,22 @@
 #Setup
-letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-accepted = ["ENCRYPT","DECRYPT","E","D"]
+letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+encryptAccept = ["ENCRYPT","E"]
+decryptAccept = ["DECRYPT","D"]
+accepted = encryptAccept + decryptAccept
 mode = "default"
 
+print(accepted)
+
 #Functions
-def encryption(message: str,key) -> str:
+def keyEncryption(message: str,key,encrypt) -> str:
     output = ""
     for symbol in message:
         if symbol in letters:
             num = letters.find(symbol) ## Retrieves number associated with the letters
-            num = num + key
+            if encrypt == True:
+                num = num + key
+            else:
+                num = num - key
             ## Wrap-around protection
             if num >= len(letters):
                 num = num - len(letters)
@@ -21,25 +28,31 @@ def encryption(message: str,key) -> str:
             output = output + symbol ## If symbol is not recognised as a letter, it is unaltered
     return output
 
-def decryption(input: str,key) -> str:
-
-    return "blank"
-
 #Main
 while mode not in accepted:
-    mode = input("Would you like to encrypt[E] a message, or decrypt[D] a message?\n")
-    mode = mode.upper()
+    mode = input("Would you like to encrypt[e] a message, or decrypt[d] a message?\n")
+    mode = str(mode.upper())
     if mode == "EXIT":
         exit()
 print("Mode set to {0}".format(mode))
 
-key = int(input("Please enter the key to be used:\n"))
-text = input("Please enter the text to be used:\n")
-text = text.upper()
-
-if mode == accepted[0] or accepted[2]:
-    message = encryption(text,key)
-elif mode == accepted[1] or accepted[3]:
-    message = decryption(text,key)
-
+if mode in encryptAccept:
+    key = int(input("Please enter the key to be used:\n"))
+    text = input("Please enter the text to be encrypted:\n")
+    text = text.upper()
+    message = keyEncryption(text,key,encrypt=True)
+elif mode in decryptAccept:
+    keyKnown = input("Is the encryption key known? Yes/No:\n")
+    keyKnown = keyKnown.upper()
+    if keyKnown == "YES" or "Y":
+        key = int(input("Please enter the key to be used:\n"))
+        text = input("Please enter the text to be decoded:\n")
+        text = text.upper()
+        message = keyEncryption(text,key,encrypt=False)
+    else:
+        text = input("Please enter the text to be decoded:\n")
+        text = text.upper()    
+else:
+    print("Sorry, something went wrong.")
+    exit()
 print(message)
