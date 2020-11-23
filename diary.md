@@ -1,0 +1,6 @@
+# dndcypher
+
+Purpose: This file serves as a simple plaintext blog for this project. I may one day take this and make something more from it, but for now it exists to help order my thoughts.
+
+23/11/2020
+Since starting this rebuild, I've done more research into the actual cypher methods I used first time around, since up until this point theres been no real innovation involved in this project. I refreshed what I knew about the Ceasar cypher, and introduced myself formally to the Vigènere cypher. Originally I simply knew it as the cypher that the confederate states used for the cypher discs (which was the main goal, as I wanted to use this cypher with a physical prop for dungeons and dragons!), but after looking into it more I now know that it is a sort of polyalphabetic substitution cypher. I also learned that its pretty hard to crack by hand. So, for the next step of this little project I intend to refer to these encryption types by name (rather than basic vs advanced!) and add a way to break the Vigènere cypher. Perhaps down the line I will add a distinct function for more types of cyphers, and grow this from a fun little d&d project, and into a lesson about the abundance of cyphers that exist and how they all compare.
