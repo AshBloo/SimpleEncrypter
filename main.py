@@ -1,118 +1,44 @@
-#Setup
-letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-encryptAccept = ["ENCRYPT","E"] #Assigning accepted phrases. Can be easily updated if, for example, users consistently typo encrpyt
-decryptAccept = ["DECRYPT","D"]
-accepted = encryptAccept + decryptAccept
-mode = "default" #Setting this to default allows the while loop statement below to work, kickstarting the application
-advanced = True
+import cypherFunctions
 
-#Functions
-def keyEncryption(message: str,key,encrypt) -> str:
-    output = ""
-    for symbol in message:
-        if symbol in letters:
-            num = letters.find(symbol) ## Retrieves number associated with the letters
-            if encrypt == True:
-                num = num + key
-            else:
-                num = num - key
-            ## Wrap-around protection
-            if num >= len(letters):
-                num = num - len(letters)
-            elif num < 0:
-                num = num + len(letters)
-            ## Adding generated letter to translated array
-            output = output + letters[num]
-        else:
-            output = output + symbol ## If symbol is not recognised as a letter, it is unaltered
-    return output
+def modeSelect():
+    accepted = [1, 2]
+    mode = "default"
+    while mode not in accepted:
+        mode = int(input("Please select a mode: \n [1] Encrypt \n [2] Decrypt \n [0] Exit \n"))
+        if mode == 0:
+            exit()
+        if mode not in accepted:
+            print("Input not recognised. Please type either '1' for encrypt, or '2' for decrypt. \nType '0' to exit the application.")
+    return mode
 
-def advancedEncryption(message: str,phrase: str,encrypt) -> str:
-    i = 0
-    output = ""
-    for symbol in message:
-        if i == len(phrase):
-            i = i - len(phrase)
-        if symbol in letters:
-            num = letters.find(symbol)
-            shiftFactor = letters.find(phrase[i])
-            if encrypt == True:
-                num = num + shiftFactor
-            else:
-                num = num - shiftFactor
-            ## Wrap-around protection
-            if num >= len(letters):
-                num = num - len(letters)
-            elif num < 0:
-                num = num + len(letters)
-            i = i + 1
-            ## Adding generated letter to translated array
-            output = output + letters[num]
-        else:
-            output = output + symbol ## If symbol is not recognised as a letter, it is unaltered
-    return output
+def launchEncryption():
+    accepted = [1,2]
+    mode = "default"
+    while mode not in accepted:
+        mode = int(input("Please select an encryption type for your message: \n[1] Ceasar Cypher \n[2] Vigenere Cypher \n[0] Exit \n"))
+        if mode == 0:
+            exit()
+        if mode == 1:
+            cypherFunctions.ceasarCypher(encrypt=True)
+        if mode == 2:
+            cypherFunctions.vigenereCypher(encrypt=True)
 
-def bruteForce(message: str) -> str:
-    for key in range(len(letters)):
-        output = ""
-        for symbol in message:
-            if symbol in letters:
-                num = letters.find(symbol) ## Retrieves number associated with the letters
-                num = num - key
-            ## Wrap-around protection
-            if num >= len(letters):
-                num = num - len(letters)
-            elif num < 0:
-                num = num + len(letters)
-            ## Adding generated letter to translated array
-            output = output + letters[num]
-        else:
-            output = output + symbol ## If symbol is not recognised as a letter, it is unaltered
-        print("Key: {0}. Message: {1}".format(key,output))
+def launchDecryption():
+    accepted = [1,2,3]
+    mode = "default"
+    while mode not in accepted:
+        mode = int(input("Please select a decryption type for your message: \n[1] Ceasar Cypher \n[2] Vigenere Cypher \n[3] Unknown (Brute Force) \n[0] Exit \n"))
+        if mode == 0:
+            exit()
+        if mode == 1:
+            cypherFunctions.ceasarCypher(encrypt=False)
+        if mode == 2:
+            cypherFunctions.vigenereCypher(encrypt=False) 
+        if mode == 3:
+            print("Mode not yet implemented")
 
-#Main
-while mode not in accepted:
-    mode = input("Would you like to encrypt[e] a message, or decrypt[d] a message?\n")
-    mode = str(mode.upper())
-    if mode == "EXIT":
-        exit()
-print("Mode set to {0}".format(mode))
-
-if mode in encryptAccept and advanced == False:
-    key = int(input("Please enter the key to be used:\n"))
-    text = input("Please enter the text to be encrypted:\n")
-    text = text.upper()
-    message = keyEncryption(text,key,encrypt=True)
-    print(message)
-elif mode in decryptAccept and advanced == False:
-    keyKnown = input("Is the encryption key known? Yes/No:\n")
-    keyKnown = keyKnown.upper()
-    if keyKnown in {"YES","Y"}:
-        key = int(input("Please enter the key to be used:\n"))
-        text = input("Please enter the text to be decoded:\n")
-        text = text.upper()
-        message = keyEncryption(text,key,encrypt=False)
-        print(message)
-    else:
-        text = input("Please enter the text to be decoded:\n")
-        text = text.upper()    
-        bruteForce(text)
-elif mode in encryptAccept and advanced == True:
-    print("Advanced Mode\n")
-    phrase = input("Please enter the encryption phrase:\n")
-    phrase = phrase.upper()
-    text = input("Please enter the text to be encrypted:\n")
-    text = text.upper()
-    message = advancedEncryption(text,phrase,encrypt=True)
-    print(message)
-elif mode in decryptAccept and advanced == True:
-    print("Advanced Mode\n")
-    phrase = input("Please enter the encryption phrase:\n")
-    phrase = phrase.upper()
-    text = input("Please enter the text to be decrypted:\n")
-    text = text.upper()
-    message = advancedEncryption(text,phrase,encrypt=False)
-    print(message)
+mode = modeSelect()
+if mode == 1:
+    launchEncryption()
 else:
-    print("Sorry, something went wrong.")
-    exit()
+    launchDecryption()
