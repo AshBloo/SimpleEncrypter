@@ -1,9 +1,7 @@
-def ceasarCypher(encrypt) -> str:
+def ceasarCypher(message,key,encrypt) -> str: #Remember to remove message
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     output = ""
-    message = str(input("Please enter the text to be encrypted: \n"))
     message = message.upper()
-    key = int(input("Please enter an integer to use as the encryption key: \n"))
     for symbol in message:
         if symbol in alphabet:
             num = alphabet.find(symbol) ## Retrieves number associated with the alphabet
@@ -20,8 +18,7 @@ def ceasarCypher(encrypt) -> str:
             output = output + alphabet[num]
         else:
             output = output + symbol ## If symbol is not recognised as a letter, it is unaltered
-    print("Task complete. Translated task below: \n")
-    print(output)
+    return output
 
 def vigenereCypher(encrypt) -> str:
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
