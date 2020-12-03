@@ -34,6 +34,14 @@ def encrypt():
         translate=cypherFunctions.ceasarCypher(message,key,encrypt=True)
         txt_edit.delete("1.0", tk.END)
         txt_edit.insert(tk.END, translate)
+    if cypher == "vigenere":
+        phrase=str(ent_phrase.get())
+        message=txt_edit.get("1.0", tk.END)
+        translate=cypherFunctions.vigenereCypher(message,phrase,encrypt=True)
+        txt_edit.delete("1.0", tk.END)
+        txt_edit.insert(tk.END, translate)
+    else:
+        print("fail")
 
 def decrypt():
     cypher=mode.get()
@@ -41,6 +49,12 @@ def decrypt():
         key=int(ent_key.get())
         message=txt_edit.get("1.0", tk.END)
         translate=cypherFunctions.ceasarCypher(message,key,encrypt=False)
+        txt_edit.delete("1.0", tk.END)
+        txt_edit.insert(tk.END, translate)
+    if cypher == "vigenere":
+        phrase=str(ent_phrase.get())
+        message=txt_edit.get("1.0", tk.END)
+        translate=cypherFunctions.vigenereCypher(message,phrase,encrypt=False)
         txt_edit.delete("1.0", tk.END)
         txt_edit.insert(tk.END, translate)
 
@@ -71,7 +85,7 @@ lbl_divider.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 frm_encryption=tk.Frame(mainframe)
 mode=tk.StringVar()
 rad_ceasar=tk.Radiobutton(frm_encryption, text="Ceasar Cypher", variable=mode, value="ceasar")
-rad_viginere=tk.Radiobutton(frm_encryption, text="Viginere Cypher", variable=mode, value="viginere")
+rad_vigenere=tk.Radiobutton(frm_encryption, text="Vigenere Cypher", variable=mode, value="vigenere")
 lbl_key=tk.Label(frm_encryption, text="Key:")
 lbl_phrase=tk.Label(frm_encryption, text="Phrase:")
 ent_key=tk.Entry(frm_encryption, width=10)
@@ -79,7 +93,7 @@ ent_phrase=tk.Entry(frm_encryption, width=10)
 
 #Positioning for the above widgets within sub-frame
 rad_ceasar.grid(row=0, column=0, sticky="ew")
-rad_viginere.grid(row=1, column=0, sticky="ew")
+rad_vigenere.grid(row=1, column=0, sticky="ew")
 lbl_key.grid(row=0, column=1, sticky="ew")
 lbl_phrase.grid(row=1, column=1, sticky="ew")
 ent_key.grid(row=0, column=2, sticky="ew")

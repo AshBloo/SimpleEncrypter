@@ -20,13 +20,11 @@ def ceasarCypher(message,key,encrypt) -> str: #Remember to remove message
             output = output + symbol ## If symbol is not recognised as a letter, it is unaltered
     return output
 
-def vigenereCypher(encrypt) -> str:
+def vigenereCypher(message,phrase,encrypt) -> str:
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     i = 0
     output = ""
-    message = str(input("Please enter the text to be encrypted: \n"))
     message = message.upper()
-    phrase = str(input("Please enter a phrase to use as the encryption key: \n"))
     phrase =  phrase.upper()
     for symbol in message:
         if i == len(phrase):
